@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+xmlns:android="http://schemas.android.com/apk/res/android"
+           id="msopentech.azure.NotificationHub"
+      version="0.0.1">
+    <name>Azure Notification Hub</name>
+
+    <description>Cordova Azure Notification Hub Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova, azure, push, notifications, hub</keywords>
+    <repo>https://github.com/sgrebnov/cordova-plugin-azure-notificationhub</repo>
+    <issue>https://github.com/sgrebnov/cordova-plugin-azure-notificationhub/issues</issue>
+    
+    <js-module src="plugins/msopentech.azure.NotificationHub/www/Promise.js" name="Promise"/>
+	
+	<js-module src="www/js/index.js" name="pluginIndex">
+		<clobbers target="Plugin.Messaging.CreateHub" />
+	</js-module>
+
+    <js-module src="plugins/msopentech.azure.NotificationHub/www/NotificationHub.js" name="NotificationHub">
+        <clobbers target="WindowsAzure.Messaging.NotificationHub" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="NotificationHub">
+                <param name="android-package" value="msopentech.azure.NotificationHub" />
+            </feature>
+        </config-file>
+        
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+            <uses-permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE" /> 
+            <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+            <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+            <uses-permission android:name="android.permission.WAKE_LOCK" />
+        </config-file>
+        
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <receiver android:name="msopentech.azure.NotificationHub$PushNotificationReceiver"
+                android:permission="com.google.android.c2dm.permission.SEND">
+                <intent-filter>
+                    <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+            </receiver>
+        </config-file>
+
+        <source-file src="plugins/msopentech.azure.NotificationHub/src/android/NotificationHub.java" target-dir="src/msopentech/azure" />
+
+        <lib-file src="plugins/msopentech.azure.NotificationHub/src/android/google-play-services.jar" />
+        <lib-file src="plugins/msopentech.azure.NotificationHub/src/android/notification-hubs-0.1.jar" />
+    </platform>
+
+</plugin>

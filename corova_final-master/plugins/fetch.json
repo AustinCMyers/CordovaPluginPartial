@@ -1,0 +1,8 @@
+{
+    "msopentech.azure.NotificationHub": {
+        "source": {
+            "type": "local",
+            "path": "C:\\Users\\Austin\\Desktop\\AzureNotificationHubsPlugin"
+        }
+    }
+}
